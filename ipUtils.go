@@ -4,6 +4,7 @@ import (
 	"os/exec"
 	"strconv"
 	"strings"
+	"syscall"
 )
 
 func GetUnusedIP(programData *IPKeeper) string {
@@ -48,6 +49,7 @@ func GetUnusedIP(programData *IPKeeper) string {
 
 func executeArpCmd(programData *IPKeeper) string {
 	cmd := exec.Command("arp", "-a")
+	cmd.SysProcAttr = &syscall.SysProcAttr{HideWindow: true} // To hide the console window
 	stdout, err := cmd.Output()
 
 	if err != nil {
